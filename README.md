@@ -1,3 +1,33 @@
+ 1. Clone project từ GitHub
+Mở terminal (cmd, Git Bash hoặc VS Code), chạy:
+git clone https://github.com/your-username/timind.git
+cd timind
+Nhớ thay your-username bằng tài khoản GitHub thật của bạn.
+
+ 2. Cài đặt các package PHP bằng Composer
+composer install
+
+npm install 
+
+3. Tạo file .env và key ứng dụng
+cp .env.example .env     # Windows có thể dùng: copy .env.example .env
+php artisan key:generate
+
+🔹 4. Cấu hình database trong file .env
+Mở file .env và sửa lại các dòng sau theo thông tin MySQL của người dùng:
+DB_DATABASE=ten_csdl
+DB_USERNAME=root
+DB_PASSWORD=
+
+🔹 5. Chạy migrate (tạo bảng)
+php artisan migrate
+
+🔹 6. Chạy ứng dụng Laravel
+npm run dev
+php artisan serve
+Sau đó truy cập trình duyệt tại: http://127.0.0.1:8000
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
