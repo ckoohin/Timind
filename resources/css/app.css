@@ -88,3 +88,16 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #94A3B8;
 }
+
+.avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-sm {
+    width: 2rem;
+    height: 2rem;
+}
