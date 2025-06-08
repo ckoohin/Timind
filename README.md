@@ -2,7 +2,6 @@
 Mở terminal (cmd, Git Bash hoặc VS Code), chạy:
 git clone https://github.com/ckoohin/timind.git
 cd timind
-Nhớ thay your-username bằng tài khoản GitHub thật của bạn.
 
  2. Cài đặt các package PHP bằng Composer
 composer install
