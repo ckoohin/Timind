@@ -101,3 +101,53 @@ body {
     width: 2rem;
     height: 2rem;
 }
+
+//Dashboard
+.sidebar {
+    background-color: #002766;
+    min-height: 100vh;
+    color: white;
+    padding-top: 1rem;
+}
+.sidebar .nav-link {
+    color: white;
+    margin-bottom: 1rem;
+}
+.sidebar .nav-link.active,
+.sidebar .nav-link:hover {
+    background-color: #0041a8;
+    border-radius: 8px;
+}
+.dashboard {
+    padding: 2rem;
+}
+.card-custom {
+    border-radius: 16px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    padding: 1rem;
+}
+.timeline-item {
+    background-color: #e9f0fb;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.timeline-item i {
+    font-size: 1.25rem;
+}
+.stats-box {
+    border-radius: 12px;
+    background-color: #eef4ff;
+    padding: 1rem;
+    text-align: center;
+}
+.notification-box {
+    border-radius: 12px;
+    background-color: white;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
