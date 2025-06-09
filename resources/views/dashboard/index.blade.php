@@ -6,7 +6,7 @@
   <title>Timind Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  @vite(['resources/css/components/dashboard.css', 'resources/js/app.js'])
+  @vite(['resources/css/components/dashboard.css', 'resources/js/app.js','resources/js/dashboard.js'])
 </head>
 <body>
   <div class="container-fluid">
@@ -235,38 +235,5 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Simulate dynamic data updates
-    document.addEventListener('DOMContentLoaded', function() {
-      // Add hover effects for schedule items
-      const scheduleItems = document.querySelectorAll('.schedule-item');
-      scheduleItems.forEach(item => {
-        item.addEventListener('mouseenter', function() {
-          this.style.transform = 'translateY(-2px)';
-          this.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.15)';
-        });
-        
-        item.addEventListener('mouseleave', function() {
-          this.style.transform = 'translateY(0)';
-          this.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
-        });
-      });
-      
-      // Add click handlers for navigation
-      const navLinks = document.querySelectorAll('.nav-link');
-      navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          navLinks.forEach(l => l.classList.remove('active'));
-          this.classList.add('active');
-        });
-      });
-      
-      // Add click handler for new event button
-      document.querySelector('.new-event-btn').addEventListener('click', function() {
-        alert('Chức năng thêm sự kiện mới sẽ được triển khai!');
-      });
-    });
-  </script>
 </body>
 </html>
