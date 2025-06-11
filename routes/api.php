@@ -29,6 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Activities
     Route::apiResource('activities', ActivityController::class);
+    Route::get('/activities/calendar/{day}', [ActivityController::class, 'getCalendarData']);
+    Route::get('/activities/calendar/{week}', [ActivityController::class, 'getCalendarData']);
     Route::get('/activities/calendar/{month}', [ActivityController::class, 'getCalendarData']);
     
     // Goals
@@ -42,9 +44,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/analytics/weekly/{week}', [AnalyticsController::class, 'weekly']);
     
     // AI
-    Route::post('/ai/generate-schedule', [AiController::class, 'generateSchedule']);
-    Route::get('/ai/suggestions', [AiController::class, 'getSuggestions']);
-    Route::post('/ai/suggestions/{suggestion}/respond', [AiController::class, 'respondToSuggestion']);
+    // Route::post('/ai/generate-schedule', [AiController::class, 'generateSchedule']);
+    // Route::get('/ai/suggestions', [AiController::class, 'getSuggestions']);
+    // Route::post('/ai/suggestions/{suggestion}/respond', [AiController::class, 'respondToSuggestion']);
+    Route::get('/process-comment/{id}', [AiController::class, 'processComment']);
     
     // Notifications
     Route::get('/notifications', [NotificationController::class, 'index']);

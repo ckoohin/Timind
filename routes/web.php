@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ActivityController;
 
 Route::get('/', function () {
     return view('welcome'); 
@@ -17,10 +18,9 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
-    // Placeholder routes for navigation
-    Route::get('/activities', function () {
-        return view('dashboard.index');
-    })->name('activities.index');
+    Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
+    Route::post('/activities', [ActivityController::class, 'store'])->name('activities.store');
+    Route::patch('/activities/{activity}/status', [ActivityController::class, 'updateStatus'])->name('activities.updateStatus');
     
     Route::get('/activities/create', function () {
         return view('dashboard.index');

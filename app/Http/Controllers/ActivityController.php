@@ -3,62 +3,349 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Activity;
 
 class ActivityController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): View
     {
-        //
+        $today = Carbon::today();
+        
+        // Lấy activities của user hiện tại cho hôm nay
+        $todayActivities = Activity::where('user_id', Auth::id())
+            // ->whereDate('date', $today)
+            ->orderBy('start_time')
+            ->get();
+
+        // Lấy activities cho tuần này
+        $weekActivities = Activity::where('user_id', Auth::id())
+            // ->whereBetween('date', [
+            //     $today->startOfWeek(),
+            //     $today->endOfWeek()
+            // ])
+            // ->orderBy('date')
+            ->orderBy('start_time')
+            ->get();
+
+        // Thống kê
+        $stats = [
+            'completed' => $todayActivities->where('status', 'completed')->count(),
+            'pending' => $todayActivities->where('status', 'pending')->count(),
+            'missed' => $todayActivities->where('status', 'missed')->count(),
+            'total_study_time' => $todayActivities->where('category', 'study')->sum('duration'),
+            'total_exercise_time' => $todayActivities->where('category', 'exercise')->sum('duration'),
+        ];
+
+        return view('activities.index', compact('todayActivities', 'weekActivities', 'stats'));
+    }
+
+    public function create(): View
+    {
+        return view('activities.create');
+    }
+
+     public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'date' => 'required|date',
+            'category' => 'required|string'
+        ]);
+
+        $activity = new Activity();
+        $activity->user_id = Auth::id();
+        $activity->title = $request->title;
+        $activity->description = $request->description;
+        $activity->start_time = $request->start_time;
+        $activity->end_time = $request->end_time;
+        $activity->date = $request->date;
+        $activity->category = $request->category;
+        $activity->duration = $activity->calculateDuration();
+        $activity->save();
+
+        return redirect()->back()->with('success', 'Hoạt động đã được thêm!');
+    }
+
+    public function updateStatus(Request $request, Activity $activity)
+    {
+        $activity->update([
+            'status' => $request->status
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+
+    /**
+     * Display the specified activity
+     */
+    // public function show(string $id): View|JsonResponse
+    // {
+    //     // In a real application: $activity = Activity::findOrFail($id);
+    //     $activity = $this->getSampleActivity($id);
+
+    //     if (request()->expectsJson()) {
+    //         return response()->json([
+    //             'success' => true,
+    //             'activity' => $activity
+    //         ]);
+    //     }
+
+    //     return view('activities.show', compact('activity'));
+    // }
+
+    /**
+     * Show the form for editing the specified activity
+     */
+    // public function edit(string $id): View
+    // {
+    //     // In a real application: $activity = Activity::findOrFail($id);
+    //     $activity = $this->getSampleActivity($id);
+
+    //     return view('activities.edit', compact('activity'));
+    // }
+
+    /**
+     * Update the specified activity
+     */
+    public function update(Request $request, string $id): JsonResponse|RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'date' => 'required|date',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
+            'type' => 'required|string|in:study,english,javascript,webdev,exercise,entertainment,personal',
+            'color' => 'required|string|regex:/^#[a-fA-F0-9]{6}$/',
+            'note' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+            return back()->withErrors($validator)->withInput();
+        }
+
+        // In a real application: 
+        // $activity = Activity::findOrFail($id);
+        // $activity->update($request->validated());
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã cập nhật sự kiện thành công!'
+            ]);
+        }
+
+        return redirect()->route('activities.index')
+            ->with('success', 'Đã cập nhật sự kiện thành công!');
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Remove the specified activity
      */
-    public function create()
+    public function destroy(string $id): JsonResponse|RedirectResponse
     {
-        //
+        // In a real application:
+        // $activity = Activity::findOrFail($id);
+        // $activity->delete();
+
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã xóa sự kiện thành công!'
+            ]);
+        }
+
+        return redirect()->route('activities.index')
+            ->with('success', 'Đã xóa sự kiện thành công!');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Get activities for calendar display
      */
-    public function store(Request $request)
+    // public function getCalendarEvents(Request $request): JsonResponse
+    // {
+    //     $start = $request->get('start');
+    //     $end = $request->get('end');
+
+    //     // In a real application, you would filter by date range:
+    //     // $activities = Activity::where('user_id', Auth::id())
+    //     //     ->whereBetween('start_datetime', [$start, $end])
+    //     //     ->get();
+
+    //     $activities = $this->getSampleActivities();
+
+    //     $events = collect($activities)->map(function ($activity) {
+    //         return [
+    //             'id' => $activity['id'],
+    //             'title' => $activity['title'],
+    //             'start' => $activity['start'],
+    //             'end' => $activity['end'],
+    //             'backgroundColor' => $activity['backgroundColor'],
+    //             'className' => $activity['className'],
+    //             'extendedProps' => [
+    //                 'type' => $activity['className'],
+    //                 'note' => $activity['note'] ?? ''
+    //             ]
+    //         ];
+    //     });
+
+    //     return response()->json($events);
+    // }
+
+    /**
+     * Move/reschedule an activity (drag & drop)
+     */
+    public function move(Request $request, string $id): JsonResponse
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'start' => 'required|date',
+            'end' => 'required|date|after:start'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // In a real application:
+        // $activity = Activity::findOrFail($id);
+        // $activity->update([
+        //     'start_datetime' => $request->start,
+        //     'end_datetime' => $request->end
+        // ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã di chuyển sự kiện thành công!'
+        ]);
     }
 
     /**
-     * Display the specified resource.
+     * Resize an activity (change duration)
      */
-    public function show(string $id)
+    public function resize(Request $request, string $id): JsonResponse
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'start' => 'required|date',
+            'end' => 'required|date|after:start'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // In a real application:
+        // $activity = Activity::findOrFail($id);
+        // $activity->update([
+        //     'start_datetime' => $request->start,
+        //     'end_datetime' => $request->end
+        // ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã thay đổi thời lượng sự kiện!'
+        ]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Get activity statistics
      */
-    public function edit(string $id)
+    public function getStats(): JsonResponse
     {
-        //
+        $user = Auth::user();
+
+        // In a real application, you would calculate from database:
+        // $stats = [
+        //     'total_activities' => Activity::where('user_id', $user->id)->count(),
+        //     'this_week' => Activity::where('user_id', $user->id)
+        //         ->whereBetween('start_datetime', [now()->startOfWeek(), now()->endOfWeek()])
+        //         ->count(),
+        //     'by_type' => Activity::where('user_id', $user->id)
+        //         ->selectRaw('type, COUNT(*) as count')
+        //         ->groupBy('type')
+        //         ->pluck('count', 'type'),
+        //     'total_hours' => Activity::where('user_id', $user->id)
+        //         ->selectRaw('SUM(TIMESTAMPDIFF(HOUR, start_datetime, end_datetime)) as total')
+        //         ->value('total')
+        // ];
+
+        $stats = [
+            'total_activities' => 20,
+            'this_week' => 15,
+            'by_type' => [
+                'study' => 8,
+                'exercise' => 5,
+                'webdev' => 3,
+                'english' => 2,
+                'javascript' => 2
+            ],
+            'total_hours' => 45
+        ];
+
+        return response()->json($stats);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Search activities
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    // public function search(Request $request): JsonResponse
+    // {
+    //     //
+    // }
 
     /**
-     * Remove the specified resource from storage.
+     * Create recurring activities
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+    // private function createRecurringActivities(array $baseActivity, string $type): void
+    // {
+    //     $startDate = Carbon::parse($baseActivity['start_datetime']);
+    //     $endDate = Carbon::parse($baseActivity['end_datetime']);
+        
+    //     $occurrences = 10; // Create 10 recurring events
+
+    //     for ($i = 1; $i <= $occurrences; $i++) {
+    //         $newStart = $startDate->copy();
+    //         $newEnd = $endDate->copy();
+
+    //         switch ($type) {
+    //             case 'daily':
+    //                 $newStart->addDays($i);
+    //                 $newEnd->addDays($i);
+    //                 break;
+    //             case 'weekly':
+    //                 $newStart->addWeeks($i);
+    //                 $newEnd->addWeeks($i);
+    //                 break;
+    //             case 'monthly':
+    //                 $newStart->addMonths($i);
+    //                 $newEnd->addMonths($i);
+    //                 break;
+    //         }
+
+    //         $recurringActivity = $baseActivity;
+    //         $recurringActivity['start_datetime'] = $newStart;
+    //         $recurringActivity['end_datetime'] = $newEnd;
+            
+    //         // In a real application: Activity::create($recurringActivity);
+    //     }
+    // }
 }

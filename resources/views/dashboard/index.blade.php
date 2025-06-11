@@ -223,7 +223,9 @@
                   
                   <div class="advice-card">
                     <i class="fas fa-lightbulb" style="font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
-                    <div>Bạn học đều, hãy duy trì! Và đừng bỏ tập thể dục nữa nhé.</div>
+                    <div>
+                        {{ $feedback ?? 'Không có nhận xét nào cho hôm nay!' }}
+                    </div>
                   </div>
                 </div>
               </div>
