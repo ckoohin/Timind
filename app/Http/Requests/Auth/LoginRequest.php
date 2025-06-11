@@ -22,7 +22,14 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'email' => 'required',
+            'password' => 'required',
+        ];
+    }
+    public function messages() {
+        return [
+            'email.required' => "Vui lòng điền Email",
+            'password.required' => "Vui lòng điền mật khẩu",
         ];
     }
 }

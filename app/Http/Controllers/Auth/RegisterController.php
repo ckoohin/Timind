@@ -7,5 +7,10 @@ use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
-    //
+    public function showRegisterForm() {
+        return view('auth.register');
+    }
+    public function register() {
+        print_r($_POST);
+    }
 }

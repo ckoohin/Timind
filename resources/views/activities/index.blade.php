@@ -72,11 +72,31 @@
                                     <option>Tháng</option>
                                     <option>Ngày</option>
                                 </select>
-                                <div class="user-info">
-                                    <div class="user-avatar">T</div>
-                                    <span>Tên người dùng</span>
-                                    <i class="fas fa-chevron-down"></i>
+                                @auth
+                                <div class="user-info d-flex align-items-center position-relative">
+                                    <i class="fas fa-bell notification-bell me-3 text-primary fs-5"></i>
+
+                                    <div class="dropdown">
+                                        <button class="btn d-flex align-items-center border-0 bg-transparent" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <div class="user-avatar rounded-circle bg-primary text-white fw-bold d-flex justify-content-center align-items-center me-2" style="width: 35px; height: 35px;">
+                                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                            </div>
+                                            <span class="me-1">{{ Auth::user()->name }}</span>
+                                            <i class="fas fa-chevron-down text-muted"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                            <li><a class="dropdown-item" href="#">Cài đặt</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <form method="POST" action="{{ route('logout') }}">
+                                                    @csrf
+                                                    <button type="submit" class="dropdown-item">Đăng xuất</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
+                                @endauth
                                 <button class="add-btn" data-bs-toggle="modal" data-bs-target="#eventModal">
                                     <i class="fas fa-plus"></i>
                                 </button>

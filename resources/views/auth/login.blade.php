@@ -15,27 +15,24 @@
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
-        <!-- Email Address -->
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input id="email" class="form-control @error('email') is-invalid @enderror" 
-                   type="email" name="email" value="{{ old('email') }}" required autofocus>
+                   type="email" name="email" value="{{ old('email') }}" autofocus>
             @error('email')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
-        <!-- Password -->
         <div class="mb-3">
             <label for="password" class="form-label">Mật khẩu</label>
             <input id="password" class="form-control @error('password') is-invalid @enderror"
-                   type="password" name="password" required>
+                   type="password" name="password" >
             @error('password')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
-        <!-- Remember Me -->
         <div class="mb-3 form-check">
             <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
             <label for="remember_me" class="form-check-label">Ghi nhớ đăng nhập</label>
@@ -45,6 +42,9 @@
             <button type="submit" class="btn btn-primary">
                 Đăng nhập
             </button>
+        </div>
+        <div class="text-center mt-3">
+            <a href="/register" class="text-primary" style="text-decoration: none;">Bạn chưa có tài khoản? Đăng ký</a>
         </div>
 
         <div class="text-center mt-3">

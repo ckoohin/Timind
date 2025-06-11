@@ -13,11 +13,14 @@
 }
 
 :root {
-    --primary-color: #3B82F6;
+    --primary-color: #163172;
+    --second-color: #D0E4FF;
+    --white-color: #fff;
     --secondary-color: #6B7280;
     --success-color: #10B981;
     --warning-color: #F59E0B;
     --danger-color: #EF4444;
+    --text-color: #333;
 }
 
 body {
