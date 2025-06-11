@@ -14,7 +14,13 @@
 
     <form method="POST" action="{{ route('register') }}">
         @csrf
-
+        <div class="mb-3">
+            <label for="name" class="form-label">Họ tên</label>
+            <input id="name" class="form-control @error('name') is-invalid @enderror" type="text" name="name" value="{{ old('name') }}" autofocus>
+            @error('name')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input id="email" class="form-control @error('email') is-invalid @enderror" type="email" name="email" value="{{ old('email') }}" autofocus>
