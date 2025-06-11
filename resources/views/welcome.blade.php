@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timind - Quản Lý Thời Gian Thông Minh</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     @vite(['resources/css/components/welcome.css', 'resources/js/components/welcome.js'])
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="#">
                 Timind <span class="brand-accent">CodeX</span>
             </a>
-            
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
@@ -32,7 +35,7 @@
                         <a class="nav-link" href="#contact">Liên hệ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn-primary-custom ms-3" href="/login">Đăng nhập</a>
+                        <a class="nav-link btn-primary-custom ms-3" href="{{ route('showLoginForm') }}">Đăng nhập</a>
                     </li>
                 </ul>
             </div>
@@ -64,13 +67,15 @@
                     <div class="hero-content">
                         <h1 class="hero-title">
                             Quản Lý Thời Gian<br>
-                            <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Thông Minh</span>
+                            <span
+                                style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Thông
+                                Minh</span>
                         </h1>
                         <p class="hero-subtitle">
                             Tối ưu hóa lịch học, theo dõi tiến độ và đạt được mục tiêu học tập với sự hỗ trợ của AI
                         </p>
                         <div class="hero-buttons">
-                            <a href="/register" class="btn-hero btn-hero-primary">
+                            <a href="{{ route('showRegisterForm') }}" class="btn-hero btn-hero-primary">
                                 <i class="fas fa-rocket me-2"></i>
                                 Bắt đầu ngay
                             </a>
@@ -237,4 +242,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

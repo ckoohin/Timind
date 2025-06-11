@@ -34,14 +34,15 @@ class Activity extends Model
         'reminder_settings' => 'json',
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
+    protected $table = 'activities';
+    protected $primaryKey = 'id';
+
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function category()
-    {
-        return $this->belongsTo(ActivityCategory::class);
+    public function category() {
+        return $this->belongsTo(ActivityCategory::class, 'category_id', 'id');
     }
 
     public function getDurationAttribute()

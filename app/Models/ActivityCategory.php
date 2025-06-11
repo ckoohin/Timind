@@ -20,8 +20,14 @@ class ActivityCategory extends Model
         'is_system_default' => 'boolean',
     ];
 
-    public function activities()
-    {
-        return $this->hasMany(Activity::class, 'category_id');
+    protected $table = 'activity_categories';
+    protected $primaryKey = 'id';
+
+    public function activities() {
+        return $this->hasMany(Activity::class, 'category_id' , 'id');
+    }
+
+    public function user() {
+        return $this->belongsToMany(User::class, 'activities', 'user_id' , 'category_id');
     }
 }

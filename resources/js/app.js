@@ -10,9 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Auto-hide alerts
-setTimeout(function() {
+setTimeout(function () {
     let alerts = document.querySelectorAll('.alert-dismissible');
-    alerts.forEach(function(alert) {
+    alerts.forEach(function (alert) {
         let bsAlert = new bootstrap.Alert(alert);
         bsAlert.close();
     });

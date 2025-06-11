@@ -11,7 +11,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,22 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|confirmed'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => "Vui lòng nhập tên",
+            'name.string' => "Tên phải là dạng chuỗi",
+            'email.required' => "Vui lòng nhập trường name",
+            'email.email' => 'Email không hợp lệ',
+            'email.unique' => 'Email đã tồn tại',
+            'password.required' => 'Vui lòng nhập mật khẩu',
+            'password.confirmed' => "Mật khẩu không trùng nhau",
         ];
     }
 }

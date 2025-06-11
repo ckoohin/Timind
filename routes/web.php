@@ -9,9 +9,11 @@ Route::get('/', function () {
 })->name('home');
 
 // Auth routes
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('showLoginForm');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('showRegisterForm');
+Route::post('/register', [LoginController::class , 'register'])->name('register');
 
 // Protected routes
 Route::middleware('auth')->group(function () {

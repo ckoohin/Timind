@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
@@ -14,25 +19,35 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    public function showRegisterForm() {
+        return view('auth.register');
+    }
+
+    public function login(LoginRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $credentials = $request->only(['email' , 'password']);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            
             // Update last login
-            Auth::user()->update(['last_login' => now()]);
-            
+            Auth::user()->update(['last_login' => Carbon::now()]);
+
             return redirect()->intended('dashboard');
         }
 
         throw ValidationException::withMessages([
             'email' => 'Thông tin đăng nhập không chính xác.',
         ]);
+    }
+
+    public function register(RegisterRequest $request) {
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('showLoginForm');
     }
 
     public function logout(Request $request)
