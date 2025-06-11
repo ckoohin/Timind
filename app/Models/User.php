@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'last_login'
     ];
 
     /**
@@ -33,6 +34,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $table = 'users';
+    protected $primaryKey = 'id';
     /**
      * Get the attributes that should be cast.
      *
@@ -44,5 +47,12 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function activities() {
+        return $this->hasMany(Activity::class, 'user_id' , 'id');
+    }
+
+    public function activityCategory() {
+        return $this->belongsToMany(ActivityCategory::class, 'activities', 'user_id' , 'category_id');
     }
 }

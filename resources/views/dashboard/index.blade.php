@@ -94,78 +94,29 @@
             <div class="content-grid">
               <div class="schedule-card">
                 <h3>Lịch hôm nay</h3>
-                
-                <div class="schedule-item">
-                  <div>
-                    <div class="schedule-time">7:15-9:15</div>
-                    <div class="schedule-subject">Lập Trình PHP1</div>
-                  </div>
-                  <i class="fas fa-check-circle status-completed"></i>
-                </div>
-                
-                <div class="schedule-item">
-                  <div>
-                    <div class="schedule-time">9:25-11:25</div>
-                    <div class="schedule-subject">Võ Vovinam</div>
-                  </div>
-                  <i class="fas fa-check-circle status-completed"></i>
-                </div>
-                
-                <div class="schedule-item">
-                  <div>
-                    <div class="schedule-time">11:35-12:30</div>
-                    <div class="schedule-subject">Sinh hoạt cá nhân + Ăn uống</div>
-                  </div>
-                  <i class="fas fa-check-circle status-completed"></i>
-                </div>
-                
-                <div class="schedule-item">
-                  <div>
-                    <div class="schedule-time">12:30-13:30</div>
-                    <div class="schedule-subject">Nghỉ ngơi</div>
-                  </div>
-                  <i class="fas fa-check-circle status-completed"></i>
-                </div>
-                
-                <div class="schedule-item">
-                  <div>
-                    <div class="schedule-time">13:40-16:00</div>
-                    <div class="schedule-subject">Làm bài tập về nhà</div>
-                  </div>
-                  <i class="fas fa-check-circle status-completed"></i>
-                </div>
-                
-                <div class="schedule-item">
-                  <div>
-                    <div class="schedule-time">16:05-17:05</div>
-                    <div class="schedule-subject">Chạy bộ</div>
-                  </div>
-                  <i class="fas fa-times-circle status-missed"></i>
-                </div>
-                
-                <div class="schedule-item">
-                  <div>
-                    <div class="schedule-time">17:10-19:30</div>
-                    <div class="schedule-subject">Sinh hoạt cá nhân + Ăn uống</div>
-                  </div>
-                  <i class="fas fa-clock status-pending"></i>
-                </div>
-                
-                <div class="schedule-item">
-                  <div>
-                    <div class="schedule-time">19:30-21:00</div>
-                    <div class="schedule-subject">Giải trí</div>
-                  </div>
-                  <i class="fas fa-clock status-pending"></i>
-                </div>
-                
-                <div class="schedule-item">
-                  <div>
-                    <div class="schedule-time">21:00-22:00</div>
-                    <div class="schedule-subject">Học thêm kiến thức mới</div>
-                  </div>
-                  <i class="fas fa-clock status-pending"></i>
-                </div>
+                  @php
+                    $iconList = [
+                      'completed' => 'fas fa-check-circle status-completed',
+                      'planned' => 'fas fa-clock status-pending',
+                    ];
+                  @endphp
+
+                  @foreach ($activities as $activity)
+                    @php
+                      $start = new DateTime($activity->start_time);
+                      $startTime = $start->format('H:i');
+                      $end = new DateTime($activity->end_time);
+                      $endTime = $end->format('H:i');
+                      $icon = $iconList[$activity->status];
+                    @endphp
+                    <div class="schedule-item">
+                      <div>
+                          <div class="schedule-time">{{ $startTime }} - {{ $endTime }}</div>
+                          <div class="schedule-subject">{{ $activity->description }}</div>
+                      </div>
+                      <i class="{{ $icon }}"></i>
+                    </div>
+                  @endforeach
               </div>
               
               <div class="stats-section">
