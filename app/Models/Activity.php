@@ -51,4 +51,10 @@ class Activity extends Model
     {
         return $this->start_time->diffInMinutes($this->end_time);
     }
+    public function calculateDuration()
+    {
+        $start = Carbon::parse($this->start_time);
+        $end = Carbon::parse($this->end_time);
+        return $end->diffInMinutes($start);
+    }
 }

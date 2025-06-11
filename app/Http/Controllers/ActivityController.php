@@ -17,23 +17,19 @@ class ActivityController extends Controller
     {
         $today = Carbon::today();
         
-        // Lấy activities của user hiện tại cho hôm nay
         $todayActivities = Activity::where('user_id', Auth::id())
-            // ->whereDate('date', $today)
+            ->whereDate('start_time', Carbon::today())
             ->orderBy('start_time')
             ->get();
+        $weekStart = $today->copy()->startOfWeek();
+        $weekEnd = $today->copy()->endOfWeek();
 
-        // Lấy activities cho tuần này
         $weekActivities = Activity::where('user_id', Auth::id())
-            // ->whereBetween('date', [
-            //     $today->startOfWeek(),
-            //     $today->endOfWeek()
-            // ])
-            // ->orderBy('date')
+            ->whereDate('start_time', '>=', $weekStart)
+            ->whereDate('start_time', '<=', $weekEnd)
             ->orderBy('start_time')
             ->get();
 
-        // Thống kê
         $stats = [
             'completed' => $todayActivities->where('status', 'completed')->count(),
             'pending' => $todayActivities->where('status', 'pending')->count(),
@@ -41,8 +37,47 @@ class ActivityController extends Controller
             'total_study_time' => $todayActivities->where('category', 'study')->sum('duration'),
             'total_exercise_time' => $todayActivities->where('category', 'exercise')->sum('duration'),
         ];
+        $statusCounts = [
+            'planned' => $todayActivities->where('status', 'planned')->count(),
+            'in_progress' => $todayActivities->where('status', 'in_progress')->count(),
+            'completed' => $todayActivities->where('status', 'completed')->count(),
+        ];
+        $totalStudyMinutes = $todayActivities->filter(function ($activity) {
+            return $activity->category && $activity->category->type === 'study';
+        })->sum('duration');
 
-        return view('activities.index', compact('todayActivities', 'weekActivities', 'stats'));
+        $totalExerciseMinutes = $todayActivities->filter(function ($activity) {
+            return $activity->category && $activity->category->type === 'exercise';
+        })->sum('duration');
+
+        $totalEntertainmentMinutes = $todayActivities->filter(function ($activity) {
+            return $activity->category && $activity->category->type === 'entertainment';
+        })->sum('duration');
+
+        $totalSleepMinutes = $todayActivities->filter(function ($activity) {
+            return $activity->category && $activity->category->type === 'sleep';
+        })->sum(callback: 'duration');
+
+        $studyHours = intdiv($totalStudyMinutes, 60);
+        $studyRemain = $totalStudyMinutes % 60;
+
+        $exerciseHours = intdiv($totalExerciseMinutes, 60);
+        $exerciseRemain = $totalExerciseMinutes % 60;
+
+        $entertainHours = intdiv($totalEntertainmentMinutes, 60);
+        $entertainRemain = $totalEntertainmentMinutes % 60;
+
+        $sleepHours = intdiv($totalSleepMinutes, 60);
+        $sleepRemain = $totalSleepMinutes % 60;
+
+        return view('activities.index', 
+        compact('todayActivities', 'weekActivities'
+            , 'stats','statusCounts',
+            'studyHours', 'studyRemain',
+            'exerciseHours', 'exerciseRemain',
+            'entertainHours', 'entertainRemain',
+            'sleepHours', 'sleepRemain',
+        ));
     }
 
     public function create(): View

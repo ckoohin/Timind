@@ -254,6 +254,7 @@ body{
 
 .completed{background:#28a745;}
 .missed{background:#dc3545;}
+.in_progress{background:#17a2b8;}
 .pending{background:#ffc107;}
 
 .notification-card{

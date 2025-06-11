@@ -62,10 +62,8 @@
                         <div class="header">
                             <h1 class="header-title">Thời gian biểu</h1>
                             <div class="header-controls">
-                                <div class="date-nav">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <span id="currentDate">28/5/2025</span>
-                                    <i class="fas fa-chevron-down"></i>
+                                <div class="date">
+                                    <input type="date" id="currentDate" class="form-control d-inline-block" style="width: 160px;" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                                 </div>
                                 <select class="form-select" style="width: auto;">
                                     <option>Tuần</option>
@@ -74,7 +72,50 @@
                                 </select>
                                 @auth
                                 <div class="user-info d-flex align-items-center position-relative">
-                                    <i class="fas fa-bell notification-bell me-3 text-primary fs-5"></i>
+                                    <div class="dropdown me-3">
+                                        <button class="btn border-0 bg-transparent p-0" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-bell notification-bell text-primary fs-5"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" style="min-width: 300px;">
+                                            <li class="dropdown-header">Thông báo</li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            @php
+                                                $activities = $activities ?? [];
+                                                $totalTasks = count($activities);
+                                                $pendingTasks = ($statusCounts['planned'] ?? 0) + ($statusCounts['in_progress'] ?? 0);
+                                                $completedTasks = $statusCounts['completed'] ?? 0;
+                                            @endphp
+
+                                            @if($pendingTasks > 0)
+                                            <li>
+                                                <div class="px-3 py-2">
+                                                Bạn còn {{ $pendingTasks }} task cần thực hiện hôm nay
+                                                </div>
+                                            </li>
+                                            @endif
+                                            @if($completedTasks > 0)
+                                            <li>
+                                                <div class="px-3 py-2">
+                                                Bạn đã hoàn thành {{ $completedTasks }} task hôm nay. Tuyệt vời!
+                                                </div>
+                                            </li>
+                                            @endif
+                                            @if(($studyHours * 60 + $studyRemain) >= 120)
+                                            <li>
+                                                <div class="px-3 py-2">
+                                                Bạn đã học liên tục {{ $studyHours > 0 ? $studyHours . ' giờ ' : '' }}{{ $studyRemain > 0 ? $studyRemain . ' phút' : '' }}, nên nghỉ ngơi 15 phút nhé!
+                                                </div>
+                                            </li>
+                                            @endif
+                                            @if($totalTasks == 0)
+                                            <li>
+                                                <div class="px-3 py-2">
+                                                Hôm nay bạn chưa có task nào, hãy thêm mục tiêu mới!
+                                                </div>
+                                            </li>
+                                            @endif
+                                        </ul>
+                                    </div>
 
                                     <div class="dropdown">
                                         <button class="btn d-flex align-items-center border-0 bg-transparent" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">

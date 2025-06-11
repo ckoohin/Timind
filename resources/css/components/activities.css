@@ -135,15 +135,6 @@ body{
     gap: 15px;
 }
 
-.date-nav {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--light-blue);
-    padding: 8px 15px;
-    border-radius: 8px;
-}
-
 .date-navi {
     cursor: pointer;
     padding: 5px;
