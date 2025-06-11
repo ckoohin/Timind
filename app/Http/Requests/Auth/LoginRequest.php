@@ -11,7 +11,7 @@ class LoginRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,6 +29,7 @@ class LoginRequest extends FormRequest
     public function messages() {
         return [
             'email.required' => "Vui lòng điền Email",
+            'email.email' => 'Email không hợp lệ',
             'password.required' => "Vui lòng điền mật khẩu",
         ];
     }

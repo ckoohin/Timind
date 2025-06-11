@@ -361,7 +361,7 @@ document.addEventListener('keydown', function(e) {
 document.getElementById('calendar').addEventListener('dblclick', function(e) {
     const rect = this.getBoundingClientRect();
     const y = e.clientY - rect.top;
-    const hour = Math.floor((y - 120) / 120) + 7; // Assuming each hour slot is 120px and starts at 7am
+    const hour = Math.floor((y - 60) / 60) + 7; 
 
     if (hour >= 7 && hour <= 22) {
         const today = calendar.getDate();
@@ -371,7 +371,6 @@ document.getElementById('calendar').addEventListener('dblclick', function(e) {
     }
 });
 
-// Drag and drop functionality enhancement
 calendar.on('eventReceive', function(info) {
     showNotification('Đã di chuyển sự kiện thành công!', 'success');
 });
@@ -384,7 +383,6 @@ calendar.on('eventResize', function(info) {
     showNotification('Đã thay đổi thời lượng sự kiện!', 'success');
 });
 
-// Search functionality (for future enhancement)
 function searchEvents(query) {
     const filteredEvents = events.filter(event => 
         event.title.toLowerCase().includes(query.toLowerCase()) ||
@@ -395,7 +393,6 @@ function searchEvents(query) {
     calendar.addEventSource(filteredEvents);
 }
 
-// Export calendar data (for future enhancement)
 function exportCalendar() {
     const dataStr = JSON.stringify(events, null, 2);
     const dataBlob = new Blob([dataStr], {type: 'application/json'});
@@ -406,7 +403,6 @@ function exportCalendar() {
     link.click();
 }
 
-// Import calendar data (for future enhancement)
 function importCalendar(file) {
     const reader = new FileReader();
     reader.onload = function(e) {

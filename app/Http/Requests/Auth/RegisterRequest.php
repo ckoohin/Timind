@@ -11,7 +11,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -31,7 +31,7 @@ class RegisterRequest extends FormRequest
         return [
             'name.required' => "Vui lòng nhập tên",
             'name.string' => "Tên phải là dạng chuỗi",
-            'email.required' => "Vui lòng nhập trường name",
+            'email.required' => "Vui lòng nhập email",
             'email.email' => 'Email không hợp lệ',
             'email.unique' => 'Email đã tồn tại',
             'password.required' => 'Vui lòng nhập mật khẩu',

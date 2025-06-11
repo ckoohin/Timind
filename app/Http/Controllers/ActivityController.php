@@ -340,47 +340,39 @@ class ActivityController extends Controller
     }
 
     /**
-     * Search activities
-     */
-    // public function search(Request $request): JsonResponse
-    // {
-    //     //
-    // }
-
-    /**
      * Create recurring activities
      */
-    // private function createRecurringActivities(array $baseActivity, string $type): void
-    // {
-    //     $startDate = Carbon::parse($baseActivity['start_datetime']);
-    //     $endDate = Carbon::parse($baseActivity['end_datetime']);
+    private function createRecurringActivities(array $baseActivity, string $type): void
+    {
+        $startDate = Carbon::parse($baseActivity['start_datetime']);
+        $endDate = Carbon::parse($baseActivity['end_datetime']);
         
-    //     $occurrences = 10; // Create 10 recurring events
+        $occurrences = 10; // Create 10 recurring events
 
-    //     for ($i = 1; $i <= $occurrences; $i++) {
-    //         $newStart = $startDate->copy();
-    //         $newEnd = $endDate->copy();
+        for ($i = 1; $i <= $occurrences; $i++) {
+            $newStart = $startDate->copy();
+            $newEnd = $endDate->copy();
 
-    //         switch ($type) {
-    //             case 'daily':
-    //                 $newStart->addDays($i);
-    //                 $newEnd->addDays($i);
-    //                 break;
-    //             case 'weekly':
-    //                 $newStart->addWeeks($i);
-    //                 $newEnd->addWeeks($i);
-    //                 break;
-    //             case 'monthly':
-    //                 $newStart->addMonths($i);
-    //                 $newEnd->addMonths($i);
-    //                 break;
-    //         }
+            switch ($type) {
+                case 'daily':
+                    $newStart->addDays($i);
+                    $newEnd->addDays($i);
+                    break;
+                case 'weekly':
+                    $newStart->addWeeks($i);
+                    $newEnd->addWeeks($i);
+                    break;
+                case 'monthly':
+                    $newStart->addMonths($i);
+                    $newEnd->addMonths($i);
+                    break;
+            }
 
-    //         $recurringActivity = $baseActivity;
-    //         $recurringActivity['start_datetime'] = $newStart;
-    //         $recurringActivity['end_datetime'] = $newEnd;
+            $recurringActivity = $baseActivity;
+            $recurringActivity['start_datetime'] = $newStart;
+            $recurringActivity['end_datetime'] = $newEnd;
             
-    //         // In a real application: Activity::create($recurringActivity);
-    //     }
-    // }
+            //In a real application: Activity::create($recurringActivity);
+        }
+    }
 }

@@ -20,7 +20,7 @@
             <input id="email" class="form-control @error('email') is-invalid @enderror" 
                    type="email" name="email" value="{{ old('email') }}" autofocus>
             @error('email')
-                <div class="invalid-feedback">{{ $message }}</div>
+                <div class="text-danger small mt-1">{{ $message }}</div>
             @enderror
         </div>
 
