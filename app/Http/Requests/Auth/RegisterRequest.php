@@ -21,19 +21,21 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8|confirmed',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
         ];
     }
 
     public function messages() {
         return [
-            'email.required' => 'Vui lòng nhập email',
+            'name.required' => "Vui lòng nhập tên",
+            'name.string' => "Tên phải là dạng chuỗi",
+            'email.required' => "Vui lòng nhập trường name",
             'email.email' => 'Email không hợp lệ',
             'email.unique' => 'Email đã tồn tại',
             'password.required' => 'Vui lòng nhập mật khẩu',
-            'password.min' => 'Mật khẩu phải gồm 8 ký tự',
-            'password.confirmed' => 'Mật khẩu không trùng nhau',
+            'password.confirmed' => "Mật khẩu không trùng nhau",
         ];
     }
 }
