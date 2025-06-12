@@ -46,12 +46,6 @@
         <div class="text-center mt-3">
             <a href="/register" class="text-primary" style="text-decoration: none;">Bạn chưa có tài khoản? Đăng ký</a>
         </div>
-
-        <div class="text-center mt-3">
-            <small class="text-muted">
-                Demo: admin@timind.com / password
-            </small>
-        </div>
     </form>
 </div>
 @endsection
