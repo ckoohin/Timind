@@ -81,13 +81,12 @@
                                                 <hr class="dropdown-divider">
                                             </li>
                                             @php
-                                                // $totalTasks = count($activities);
-                                                // $pendingTasks =
-                                                //     $statusCounts['planned'] + $statusCounts['in_progress'] ??;
-                                                // $completedTasks = $statusCounts['completed'];
+                                                $totalTasks = count($activities);
+                                                $pendingTasks =$statusCounts['planned'] + $statusCounts['in_progress'];
+                                                $completedTasks = $statusCounts['completed'];
                                             @endphp
 
-                                            {{-- @if ($pendingTasks > 0)
+                                            @if ($pendingTasks > 0)
                                                 <li>
                                                     <div class="px-3 py-2">
                                                         Bạn còn {{ $pendingTasks }} task cần thực hiện hôm nay
@@ -116,7 +115,7 @@
                                                         Hôm nay bạn chưa có task nào, hãy thêm mục tiêu mới!
                                                     </div>
                                                 </li>
-                                            @endif --}}
+                                            @endif
                                         </ul>
                                     </div>
 
@@ -157,23 +156,27 @@
                                         'planned' => 'fas fa-clock status-pending',
                                         'cancelled' => 'fas fa-times-circle status-missed',
                                     ];
+                                    $today = \Carbon\Carbon::today();
                                 @endphp
 
                                 @foreach ($activities as $activity)
                                     @php
                                         $start = new DateTime($activity->start_time);
-                                        $startTime = $start->format('H:i');
                                         $end = new DateTime($activity->end_time);
+                                        $startTime = $start->format('H:i');
                                         $endTime = $end->format('H:i');
                                         $icon = $iconList[$activity->status];
+                                        $activityDate = \Carbon\Carbon::parse($activity->start_time)->toDateString();
                                     @endphp
-                                    <div class="schedule-item">
-                                        <div>
-                                            <div class="schedule-time">{{ $startTime }} - {{ $endTime }}</div>
-                                            <div class="schedule-subject">{{ $activity->description }}</div>
+                                    @if ($activityDate == $today->toDateString())
+                                        <div class="schedule-item">
+                                            <div>
+                                                <div class="schedule-time">{{ $startTime }} - {{ $endTime }}</div>
+                                                <div class="schedule-subject">{{ $activity->description }}</div>
+                                            </div>
+                                            <i class="{{ $icon }}"></i>
                                         </div>
-                                        <i class="{{ $icon }}"></i>
-                                    </div>
+                                    @endif
                                 @endforeach
                             </div>
 
@@ -186,8 +189,10 @@
                                             'cancelled' => 0,
                                             'planned' => 0,
                                         ];
+                                        $today = \Carbon\Carbon::today()->toDateString();
                                         foreach ($activities as $activity) {
-                                            if (isset($statusCounts[$activity->status])) {
+                                            $activityDate = \Carbon\Carbon::parse($activity->start_time)->toDateString();
+                                            if ($activityDate == $today && isset($statusCounts[$activity->status])) {
                                                 $statusCounts[$activity->status]++;
                                             }
                                         }

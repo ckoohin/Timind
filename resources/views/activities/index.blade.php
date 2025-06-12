@@ -109,7 +109,7 @@
                                                         </div>
                                                     </li>
                                                 @endif
-                                                {{-- @if ($studyHours * 60 + $studyRemain >= 120)
+                                                @if ($studyHours * 60 + $studyRemain >= 120)
                                                     <li>
                                                         <div class="px-3 py-2">
                                                             Bạn đã học liên tục
@@ -117,7 +117,7 @@
                                                             nên nghỉ ngơi 15 phút nhé!
                                                         </div>
                                                     </li>
-                                                @endif --}}
+                                                @endif
                                                 @if ($totalTasks == 0)
                                                     <li>
                                                         <div class="px-3 py-2">
@@ -159,7 +159,6 @@
                             </div>
                         </div>
 
-                        {{-- Chỗ lịch --}}
                         <div class="calendar-container">
                             <div id="calendar"></div>
                         </div>
@@ -269,23 +268,11 @@
                                 </select>
                             </div>
                         </div>
-                        {{-- <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                            <button type="button" class="btn btn-primary" id="saveEvent">
-                                <i class="fas fa-save me-2"></i>Lưu sự kiện
-                            </button>
-                        </div> --}}
                         <button type="button" class="btn btn-primary" id="saveEvent">
                             <i class="fas fa-save me-2"></i>Lưu sự kiện
                         </button>
                     </form>
                 </div>
-                {{-- <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary" id="saveEvent">
-                        <i class="fas fa-save me-2"></i>Lưu sự kiện
-                    </button>
-                </div> --}}
             </div>
         </div>
     </div>
