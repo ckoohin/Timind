@@ -46,7 +46,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('analytics.index') }}" class="nav-link">
+                                <a href="#" class="nav-link">
                                     <i class="fas fa-chart-line"></i>
                                     Phân tích
                                 </a>
@@ -286,7 +286,7 @@
                                         <i class="fas fa-lightbulb"
                                             style="font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
                                         <div>
-                                            {{ $feedback ?? 'Không có nhận xét nào cho hôm nay!' }}
+                                            <p>Hôm nay bạn đã học rất chăm chỉ! Hãy phát huy nhé!</p>
                                         </div>
                                     </div>
                                 </div>

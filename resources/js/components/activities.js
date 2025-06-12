@@ -8,9 +8,6 @@ async function fetchEvents() {
         // if (!response.ok) throw new Error('Network response was not ok');
         // const data = await response.json();
         const data = window.activities;
-
-        console.log(data);
-
         events = data.map(activities => ({
             id: activities.id,
             title: activities.title,
@@ -22,12 +19,10 @@ async function fetchEvents() {
                 type: activities.type || ''
             }
         }));
-
-        console.log(events);
         if (calendar) {
             calendar.removeAllEvents();
             calendar.addEventSource(events);
-            calendar.render();
+            calendar.render(); 
         }
     } catch (error) {
         console.error('Error fetching activities:', error);
@@ -36,11 +31,11 @@ async function fetchEvents() {
 }
 
 // Fetch activities before initializing calendar
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     fetchEvents();
 });
 
-document.addEventListener('DOMContentLoaded', async function () {
+document.addEventListener('DOMContentLoaded', async function() {
     const calendarEl = document.getElementById('calendar');
     await fetchEvents();
 
@@ -49,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         headerToolbar: false,
         slotMinTime: '07:00:00',
         slotMaxTime: '22:00:00',
-        slotDuration: '01:00:00',
+        slotDuration: '01:00:00', 
         height: 'auto',
         locale: 'vi',
         firstDay: 1,
@@ -58,20 +53,20 @@ document.addEventListener('DOMContentLoaded', async function () {
             day: 'numeric',
             month: 'numeric'
         },
-        events: events,
+        events: events, 
         editable: true,
         droppable: true,
         eventResizableFromStart: true,
-        eventClick: function (info) {
+        eventClick: function(info) {
             editEvent(info.event);
         },
-        eventDrop: function (info) {
+        eventDrop: function(info) {
             updateEvent(info.event);
         },
-        eventResize: function (info) {
+        eventResize: function(info) {
             updateEvent(info.event);
         },
-        dateClick: function (info) {
+        dateClick: function(info) {
             openEventModal(info.dateStr);
         }
     });
@@ -87,16 +82,17 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 // Color picker functionality
-document.querySelectorAll('.color-option').forEach(option => {
-    option.addEventListener('click', function () {
-        document.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
-        this.classList.add('selected');
-        selectedColor = this.dataset.color;
+document.querySelectorAll('.color-option').forEach(function(el) {
+    el.addEventListener('click', function() {
+        document.querySelectorAll('.color-option').forEach(function(opt) {
+            opt.classList.remove('selected');
+        });
+        el.classList.add('selected');
+        document.getElementById('eventColor').value = el.getAttribute('data-color');
     });
 });
 
-// Recurring checkbox
-document.getElementById('isRecurring').addEventListener('change', function () {
+document.getElementById('isRecurring').addEventListener('change', function() {
     const options = document.getElementById('recurringOptions');
     options.style.display = this.checked ? 'block' : 'none';
 });
@@ -156,7 +152,6 @@ document.getElementById('saveEvent').addEventListener('click', function () {
         createRecurringEvents(newEvent, recurringType);
     }
 
-    // Close modal and reset form
     const modal = bootstrap.Modal.getInstance(document.getElementById('eventModal'));
     modal.hide();
     document.getElementById('eventForm').reset();
@@ -291,7 +286,7 @@ function updateDateDisplay() {
 }
 
 // Add navigation event listeners
-document.addEventListener('click', function (e) {
+document.addEventListener('click', function(e) {
     if (e.target.classList.contains('fa-chevron-left')) {
         previousWeek();
     } else if (e.target.classList.contains('fa-chevron-right')) {
@@ -300,7 +295,7 @@ document.addEventListener('click', function (e) {
 });
 
 // Reset modal when closed
-document.getElementById('eventModal').addEventListener('hidden.bs.modal', function () {
+document.getElementById('eventModal').addEventListener('hidden.bs.modal', function() {
     document.getElementById('eventForm').reset();
     document.getElementById('saveEvent').removeAttribute('data-event-id');
     document.querySelector('.modal-title').innerHTML = '<i class="fas fa-plus-circle me-2"></i>Sự kiện mới';
@@ -319,7 +314,7 @@ document.getElementById('eventModal').addEventListener('hidden.bs.modal', functi
 });
 
 // Handle view change
-document.querySelector('select').addEventListener('change', function () {
+document.querySelector('select').addEventListener('change', function() {
     switch (this.value) {
         case 'Ngày':
             calendar.changeView('timeGridDay');
@@ -334,15 +329,15 @@ document.querySelector('select').addEventListener('change', function () {
 });
 
 // Navigation
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.menu-item');
-    const currentUrl = window.location.pathname;
+    const currentUrl = window.location.pathname; 
 
     navLinks.forEach(link => {
         if (link.getAttribute('href') === currentUrl) {
             link.classList.add('active');
         }
-        link.addEventListener('click', function (e) {
+        link.addEventListener('click', function(e) {
             navLinks.forEach(l => l.classList.remove('active'));
             this.classList.add('active');
         });
@@ -350,7 +345,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Keyboard shortcuts
-document.addEventListener('keydown', function (e) {
+document.addEventListener('keydown', function(e) {
     // Ctrl/Cmd + N for new event
     if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
         e.preventDefault();
@@ -368,10 +363,10 @@ document.addEventListener('keydown', function (e) {
 });
 
 // Double click to create event
-document.getElementById('calendar').addEventListener('dblclick', function (e) {
+document.getElementById('calendar').addEventListener('dblclick', function(e) {
     const rect = this.getBoundingClientRect();
     const y = e.clientY - rect.top;
-    const hour = Math.floor((y - 60) / 60) + 7;
+    const hour = Math.floor((y - 60) / 60) + 7; 
 
     if (hour >= 7 && hour <= 22) {
         const today = calendar.getDate();
@@ -381,20 +376,20 @@ document.getElementById('calendar').addEventListener('dblclick', function (e) {
     }
 });
 
-calendar.on('eventReceive', function (info) {
+calendar.on('eventReceive', function(info) {
     showNotification('Đã di chuyển sự kiện thành công!', 'success');
 });
 
-calendar.on('eventDrop', function (info) {
+calendar.on('eventDrop', function(info) {
     showNotification('Đã cập nhật thời gian sự kiện!', 'success');
 });
 
-calendar.on('eventResize', function (info) {
+calendar.on('eventResize', function(info) {
     showNotification('Đã thay đổi thời lượng sự kiện!', 'success');
 });
 
 function searchEvents(query) {
-    const filteredEvents = events.filter(event =>
+    const filteredEvents = events.filter(event => 
         event.title.toLowerCase().includes(query.toLowerCase()) ||
         (event.extendedProps.note && event.extendedProps.note.toLowerCase().includes(query.toLowerCase()))
     );
@@ -405,7 +400,7 @@ function searchEvents(query) {
 
 function exportCalendar() {
     const dataStr = JSON.stringify(events, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const dataBlob = new Blob([dataStr], {type: 'application/json'});
     const url = URL.createObjectURL(dataBlob);
     const link = document.createElement('a');
     link.href = url;
@@ -415,7 +410,7 @@ function exportCalendar() {
 
 function importCalendar(file) {
     const reader = new FileReader();
-    reader.onload = function (e) {
+    reader.onload = function(e) {
         try {
             const importedEvents = JSON.parse(e.target.result);
             events = [...events, ...importedEvents];
