@@ -27,7 +27,7 @@ body{
 .sidebar{
   background:linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   padding:2rem 1.5rem;
-  min-height:700px;
+  min-height:750px;
   border-radius:20px 0 20px 0;
 }
 

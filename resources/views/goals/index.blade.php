@@ -155,10 +155,10 @@
                         <input type="text" id="duration" class="form-control" placeholder="Nhập thời gian thực hiện">
                     </div>
                     <div class="col-12 text-end">
-                        <button type="submit" class="btn btn-primary px-4">Gửi</button>
+                        <button type="submit" class="btn btn-primary px-4">Đề Xuất</button>
                     </div>
                 </form>
-                <div id="suggestion" class="mt-4"></div>
+                <div id="suggestion" class="mt-4" style="max-height: 200px; overflow-y: auto;"></div>
             </div>
                    
             </div>
@@ -181,7 +181,8 @@
             const duration = document.getElementById('duration').value;
 
             let promt = `Bạn hãy là một trợ lý quản lý thời gian. Hiên tại tôi có mục tiêu ${aim} và mong muốn ${promise}. Tình trạng của tôi hiện
-            là ${currentProcess}. Tôi mong muốn hoàn thành trong ${duration}.`
+            là ${currentProcess}. Tôi mong muốn hoàn thành trong ${duration}. một cách ngắn gọn dễ hiểu nhất, trả về dạng thẻ HTML. có phân cách từng bước, 
+            thẻ kích thước lớn nhất là h6, cấu trúc như sau đầu tiên là mục tiêu sau đó bên dưới là từng bước thực hiện, mỗi bước là một thẻ h6.`;
 
             const res = await fetch('/goals', {
                 method: 'POST',
@@ -195,7 +196,7 @@
             });
             const data = await res.json();
             console.log(data);
-            document.getElementById('suggestion').innerHTML += `${data.message}`;
+            document.getElementById('suggestion').innerHTML += `${data.message} <hr>`;
         }
 
         document.querySelector('form').addEventListener('submit', function(event) {

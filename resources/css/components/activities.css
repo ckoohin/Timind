@@ -32,10 +32,14 @@ body{
 }
 
 .sidebar{
-  background:linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  padding:2rem 1.5rem;
-  min-height:810px;
-  border-radius:20px 0 20px 0;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    padding: 2rem 1.5rem;
+    min-height: 100vh;
+    height: 100%;
+    border-radius: 20px 0 20px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 .logo{
