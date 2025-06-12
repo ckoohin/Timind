@@ -25,13 +25,6 @@ class ActivityCategory extends Model
 
     public function activities() {
         return $this->hasMany(Activity::class, 'category_id' , 'id');
-<<<<<<< HEAD
-=======
-    }
-
-    public function user() {
-        return $this->belongsToMany(User::class, 'activities', 'user_id' , 'category_id');
->>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
     }
 
     public function user() {

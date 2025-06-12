@@ -7,8 +7,7 @@
     <title>Timind - Quản Lý Thời Gian Thông Minh</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     @vite(['resources/css/components/welcome.css', 'resources/js/components/welcome.js'])
 </head>
 
@@ -67,8 +66,7 @@
                     <div class="hero-content">
                         <h1 class="hero-title">
                             Quản Lý Thời Gian<br>
-                            <span
-                                style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Thông
+                            <span style="background: linear-gradient(45deg, #ff6b6b, #feca57); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Thông
                                 Minh</span>
                         </h1>
                         <p class="hero-subtitle">

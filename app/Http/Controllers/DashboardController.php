@@ -12,9 +12,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // Lấy tất cả các hoạt động trong bảng của user
         $user = User::find(Auth::user()->id);
-
         $activities = $user->activities;
+
         $todayActivities = Activity::whereDate('start_time', today())->get();
 
         $today = Carbon::today();

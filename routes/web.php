@@ -18,9 +18,6 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('showRegisterForm');
 Route::post('/register', [LoginController::class , 'register'])->name('register');
 
-Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
-
 
 // Protected routes
 Route::middleware('auth')->group(function () {

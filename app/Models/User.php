@@ -36,10 +36,6 @@ class User extends Authenticatable
 
     protected $table = 'users';
     protected $primaryKey = 'id';
-<<<<<<< HEAD
-
-=======
->>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
     /**
      * Get the attributes that should be cast.
      *
@@ -52,10 +48,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
+    
     public function activities() {
         return $this->hasMany(Activity::class, 'user_id' , 'id');
     }
@@ -63,8 +56,4 @@ class User extends Authenticatable
     public function activityCategory() {
         return $this->belongsToMany(ActivityCategory::class, 'activities', 'user_id' , 'category_id');
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
