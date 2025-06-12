@@ -6,23 +6,20 @@ use Illuminate\Http\Request;
 use App\Models\Activity;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-<<<<<<< HEAD
-=======
 use Carbon\Carbon;
->>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
 
 class DashboardController extends Controller
 {
     public function index()
     {
         $user = User::find(Auth::user()->id);
-<<<<<<< HEAD
+
         $activities = $user->activities;
         $todayActivities = Activity::whereDate('start_time', today())->get();
-=======
+
         $today = Carbon::today();
         $activities = $user->activities;
->>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
+
         $upcomingActivities = Activity::whereDate('start_time', '>', today())
             ->where('user_id', Auth::id())
             ->orderBy('start_time')
@@ -35,9 +32,8 @@ class DashboardController extends Controller
             ->orderBy('start_time')
             ->get();
 
-<<<<<<< HEAD
+
         return view('dashboard.index', compact('todayActivities', 'upcomingActivities', 'activities'));
-=======
 
         foreach ($todayActivities as $activity) {
             $activity->duration = Carbon::parse($activity->start_time)->diffInMinutes(Carbon::parse($activity->end_time));
@@ -80,6 +76,6 @@ class DashboardController extends Controller
             'sleepHours', 'sleepRemain',
             'statusCounts','activities'
         ));
->>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
+
     }
 }
