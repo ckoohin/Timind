@@ -22,7 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
     Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
-    Route::post('/activities', [ActivityController::class, 'store'])->name('activities.store');
+    Route::post('/activities', [ActivityController::class, 'store'])->name('activitiesStore');
     Route::patch('/activities/{activity}/status', [ActivityController::class, 'updateStatus'])->name('activities.updateStatus');
     
     Route::get('/activities/create', function () {

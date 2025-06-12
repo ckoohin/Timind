@@ -15,69 +15,84 @@ class ActivityController extends Controller
 {
     public function index(): View
     {
-        $today = Carbon::today();
+        // $today = Carbon::today();
         
-        $todayActivities = Activity::where('user_id', Auth::id())
-            ->whereDate('start_time', Carbon::today())
-            ->orderBy('start_time')
-            ->get();
-        $weekStart = $today->copy()->startOfWeek();
-        $weekEnd = $today->copy()->endOfWeek();
+        // $todayActivities = Activity::where('user_id', Auth::id())
+        //     ->whereDate('start_time', Carbon::today())
+        //     ->orderBy('start_time')
+        //     ->get();
+        // $weekStart = $today->copy()->startOfWeek();
+        // $weekEnd = $today->copy()->endOfWeek();
 
-        $weekActivities = Activity::where('user_id', Auth::id())
-            ->whereDate('start_time', '>=', $weekStart)
-            ->whereDate('start_time', '<=', $weekEnd)
-            ->orderBy('start_time')
-            ->get();
+        // $weekActivities = Activity::where('user_id', Auth::id())
+        //     ->whereDate('start_time', '>=', $weekStart)
+        //     ->whereDate('start_time', '<=', $weekEnd)
+        //     ->orderBy('start_time')
+        //     ->get();
 
-        $stats = [
-            'completed' => $todayActivities->where('status', 'completed')->count(),
-            'pending' => $todayActivities->where('status', 'pending')->count(),
-            'missed' => $todayActivities->where('status', 'missed')->count(),
-            'total_study_time' => $todayActivities->where('category', 'study')->sum('duration'),
-            'total_exercise_time' => $todayActivities->where('category', 'exercise')->sum('duration'),
+        // $stats = [
+        //     'completed' => $todayActivities->where('status', 'completed')->count(),
+        //     'pending' => $todayActivities->where('status', 'pending')->count(),
+        //     'missed' => $todayActivities->where('status', 'missed')->count(),
+        //     'total_study_time' => $todayActivities->where('category', 'study')->sum('duration'),
+        //     'total_exercise_time' => $todayActivities->where('category', 'exercise')->sum('duration'),
+        // ];
+        // $statusCounts = [
+        //     'planned' => $todayActivities->where('status', 'planned')->count(),
+        //     'in_progress' => $todayActivities->where('status', 'in_progress')->count(),
+        //     'completed' => $todayActivities->where('status', 'completed')->count(),
+        // ];
+        // $totalStudyMinutes = $todayActivities->filter(function ($activity) {
+        //     return $activity->category && $activity->category->type === 'study';
+        // })->sum('duration');
+
+        // $totalExerciseMinutes = $todayActivities->filter(function ($activity) {
+        //     return $activity->category && $activity->category->type === 'exercise';
+        // })->sum('duration');
+
+        // $totalEntertainmentMinutes = $todayActivities->filter(function ($activity) {
+        //     return $activity->category && $activity->category->type === 'entertainment';
+        // })->sum('duration');
+
+        // $totalSleepMinutes = $todayActivities->filter(function ($activity) {
+        //     return $activity->category && $activity->category->type === 'sleep';
+        // })->sum(callback: 'duration');
+
+        // $studyHours = intdiv($totalStudyMinutes, 60);
+        // $studyRemain = $totalStudyMinutes % 60;
+
+        // $exerciseHours = intdiv($totalExerciseMinutes, 60);
+        // $exerciseRemain = $totalExerciseMinutes % 60;
+
+        // $entertainHours = intdiv($totalEntertainmentMinutes, 60);
+        // $entertainRemain = $totalEntertainmentMinutes % 60;
+
+        // $sleepHours = intdiv($totalSleepMinutes, 60);
+        // $sleepRemain = $totalSleepMinutes % 60;
+
+        $userId = Auth::user()->id;
+
+        // return view('activities.index', 
+        // compact('todayActivities', 'weekActivities'
+        //     , 'stats','statusCounts',
+        //     'studyHours', 'studyRemain',
+        //     'exerciseHours', 'exerciseRemain',
+        //     'entertainHours', 'entertainRemain',
+        //     'sleepHours', 'sleepRemain', 'userId',
+        // ));
+
+        $activities = Activity::all()->map(function ($activity) {
+        return [
+            'id' => $activity->id,
+            'title' => $activity->title,
+            'start' => $activity->start_time, // kiểu datetime
+            'end'   => $activity->end_time,
+            'description' => $activity->description,
+            'recurrence_type' => $activity->recurrence_type,
         ];
-        $statusCounts = [
-            'planned' => $todayActivities->where('status', 'planned')->count(),
-            'in_progress' => $todayActivities->where('status', 'in_progress')->count(),
-            'completed' => $todayActivities->where('status', 'completed')->count(),
-        ];
-        $totalStudyMinutes = $todayActivities->filter(function ($activity) {
-            return $activity->category && $activity->category->type === 'study';
-        })->sum('duration');
-
-        $totalExerciseMinutes = $todayActivities->filter(function ($activity) {
-            return $activity->category && $activity->category->type === 'exercise';
-        })->sum('duration');
-
-        $totalEntertainmentMinutes = $todayActivities->filter(function ($activity) {
-            return $activity->category && $activity->category->type === 'entertainment';
-        })->sum('duration');
-
-        $totalSleepMinutes = $todayActivities->filter(function ($activity) {
-            return $activity->category && $activity->category->type === 'sleep';
-        })->sum(callback: 'duration');
-
-        $studyHours = intdiv($totalStudyMinutes, 60);
-        $studyRemain = $totalStudyMinutes % 60;
-
-        $exerciseHours = intdiv($totalExerciseMinutes, 60);
-        $exerciseRemain = $totalExerciseMinutes % 60;
-
-        $entertainHours = intdiv($totalEntertainmentMinutes, 60);
-        $entertainRemain = $totalEntertainmentMinutes % 60;
-
-        $sleepHours = intdiv($totalSleepMinutes, 60);
-        $sleepRemain = $totalSleepMinutes % 60;
-
-        return view('activities.index', 
-        compact('todayActivities', 'weekActivities'
-            , 'stats','statusCounts',
-            'studyHours', 'studyRemain',
-            'exerciseHours', 'exerciseRemain',
-            'entertainHours', 'entertainRemain',
-            'sleepHours', 'sleepRemain',
-        ));
+    });
+        
+        return view('activities.index', compact('activities', 'userId'));
     }
 
     public function create(): View
@@ -87,24 +102,47 @@ class ActivityController extends Controller
 
      public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'start_time' => 'required',
-            'end_time' => 'required',
-            'date' => 'required|date',
-            'category' => 'required|string'
+        // $request->validate([
+        //     'title' => 'required|string|max:255',
+        //     'start_time' => 'required',
+        //     'end_time' => 'required',
+        //     'date' => 'required|date',
+        //     'category' => 'required|string'
+        // ]);
+
+        // dd($request);
+
+        // dd($request->toArray());
+        $stringDate = $request->date;
+        $stringStartTime = $request->start_time;
+        $stringEndTime = $request->end_time;
+        $startTime = Carbon::parse("$stringDate $stringStartTime");
+        $endTime = Carbon::parse("$stringDate $stringEndTime");
+        $recurrenceType = "None";
+        if(isset($request->repeat)) {
+            $recurrenceType = $request->recurrence_type;
+        };
+
+        Activity::create([
+            'user_id' => $request->user_id,
+            'category_id' => $request->category_id,
+            'title' => $request->title,
+            'start_time' => $startTime,
+            'end_time' => $endTime,
+            'description' => $request->description,
+            'recurrence_type' => $recurrenceType,
         ]);
 
-        $activity = new Activity();
-        $activity->user_id = Auth::id();
-        $activity->title = $request->title;
-        $activity->description = $request->description;
-        $activity->start_time = $request->start_time;
-        $activity->end_time = $request->end_time;
-        $activity->date = $request->date;
-        $activity->category = $request->category;
-        $activity->duration = $activity->calculateDuration();
-        $activity->save();
+        // $activity = new Activity();
+        // $activity->user_id = Auth::id();
+        // $activity->title = $request->title;
+        // $activity->description = $request->description;
+        // $activity->start_time = $request->start_time;
+        // $activity->end_time = $request->end_time;
+        // $activity->date = $request->date;
+        // $activity->category = $request->category;
+        // $activity->duration = $activity->calculateDuration();
+        // $activity->save();
 
         return redirect()->back()->with('success', 'Hoạt động đã được thêm!');
     }

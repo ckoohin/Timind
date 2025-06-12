@@ -16,6 +16,7 @@ class DashboardController extends Controller
         $today = Carbon::today();
         $activities = $user->activities;
         $upcomingActivities = Activity::whereDate('start_time', '>', today())
+            ->where('user_id', Auth::id())
             ->orderBy('start_time')
             ->limit(5)
             ->get();
@@ -26,10 +27,12 @@ class DashboardController extends Controller
             ->orderBy('start_time')
             ->get();
 
+
         foreach ($todayActivities as $activity) {
             $activity->duration = Carbon::parse($activity->start_time)->diffInMinutes(Carbon::parse($activity->end_time));
         }
         $statusCounts = $todayActivities->groupBy('status')->map->count()->toArray();
+
         $totalStudyMinutes = $todayActivities->filter(function ($activity) {
             return $activity->category && $activity->category->type === 'study';
         })->sum('duration');
