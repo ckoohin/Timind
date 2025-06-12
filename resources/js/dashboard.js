@@ -1,5 +1,3 @@
-console.log('Dashboard script loaded.');
-
 document.addEventListener('DOMContentLoaded', function() {
   const scheduleItems = document.querySelectorAll('.schedule-item');
   scheduleItems.forEach(item => {

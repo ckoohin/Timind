@@ -7,6 +7,7 @@ use App\Models\Activity;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 
 class GoalController extends Controller
 {
@@ -59,7 +60,28 @@ class GoalController extends Controller
             'exerciseHours', 'exerciseRemain',
             'entertainHours', 'entertainRemain',
             'sleepHours', 'sleepRemain',
-            'statusCounts','activities',
+            'statusCounts','activities'
         ));
+    }
+    public function postMessage(Request $request) {
+        $message = $request->message;
+        
+        $response = Http::withHeaders([
+        'Authorization' => 'Bearer ' . env('OPENROUTER_API_KEY'),
+        'Content-Type'  => 'application/json',
+        ])->post('https://openrouter.ai/api/v1/chat/completions', [
+            'model' => 'openai/gpt-3.5-turbo',
+            'messages' => [
+                ['role' => 'user', 'content' => $message]
+            ]
+        ]);
+
+        if ($response->successful()) {
+            return response()->json([
+                'message' => $response->json()['choices'][0]['message']['content']
+            ]);
+        }
+
+        return response()->json(['error' => 'API gọi thất bại'], 500);
     }
 }

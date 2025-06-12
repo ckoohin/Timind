@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Timind Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  @vite(['resources/css/components/goals.css', 'resources/js/app.js','resources/js/component/goals.js'])
+  @vite(['resources/css/components/goals.css', 'resources/js/app.js','resources/js/components/goals.js'])
 </head>
 <body>
   <div class="container-fluid">
@@ -134,71 +135,32 @@
                 @endauth
             </div>
             
-            <div class="main-content flex h-screen">
-                <div class="container mx-auto px-4 max-w-4xl">
-        
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card-container h-100 d-flex flex-column justify-content-center">
-                                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">🎯 Thiết Lập Mục Tiêu Học Tập</h2>
-                                <form id="goal-form">
-                                    <div class="input">
-                                        <div class="icon-input">
-                                            <svg fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                            <input type="text" id="title" name="title" class="input-field w-full" placeholder="Nhập tiêu đề mục tiêu..." value="{{ old('title', $goal->title ?? '') }}" required>
-                                        </div>
-                                        <div class="icon-input">
-                                            <svg fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                            </svg>
-                                            <input type="text" id="category" name="category" class="input-field w-full" placeholder="Nhập loại mục tiêu..." value="{{ old('category', $goal->category ?? '') }}" required>
-                                        </div>
-                                        <div class="icon-input">
-                                            <svg fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
-                                            </svg>
-                                            <input type="number" id="target_value" name="target_value" class="input-field w-full" placeholder="Giá trị mục tiêu..." value="{{ old('target_value', $goal->target_value ?? '') }}" required>
-                                        </div>
-                                        <div class="icon-input">
-                                            <svg fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
-                                            </svg>
-                                            <input type="number" id="current_progress" name="current_progress" class="input-field w-full" placeholder="Tiến độ hiện tại..." value="{{ old('current_progress', $goal->current_progress ?? '') }}" required>
-                                        </div>
-                                    </div>
-                                    <div class="date-range-row">
-                                        <div class="date-group">
-                                            <h4 class="text-sm font-semibold text-gray-700 mb-3">Hạn hoàn thành</h4>
-                                            <div class="flex space-x-2">
-                                                <input type="date" id="deadline" name="deadline" class="date-input" value="{{ old('deadline', isset($goal->deadline) ? \Carbon\Carbon::parse($goal->deadline)->format('Y-m-d') : '') }}" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="submit" class="btn-primary">
-                                            ✨ Xem đề xuất
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="col-md-6 d-flex align-items-center">
-                            <div id="results-section" class="result-container w-100" style="display: none;">
-                                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">📋 Kết Quả Đề Xuất</h2>
-                                <div id="schedule-results" class="space-y-4">
-                                    
-                                </div>
-                                <div class="text-center mt-6">
-                                    <button id="save-schedule" class="btn-primary">
-                                        📅 Chèn lịch
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+            <div class="ai-chat-container p-4 rounded shadow-sm bg-light my-4">
+                <h2 class="mb-4 text-primary">Thiết Lập Mục Tiêu Học Tập</h2>
+                <form onsubmit="event.preventDefault(); sendMessage();" class="row g-3 align-items-end">
+                    <div class="col-md-6">
+                        <label for="aim" class="form-label">Mục tiêu</label>
+                        <input type="text" id="aim" class="form-control" placeholder="Nhập mục tiêu">
                     </div>
-                </div>
+                    <div class="col-md-6">
+                        <label for="promise" class="form-label">Mong muốn đạt được</label>
+                        <input type="text" id="promise" class="form-control" placeholder="Nhập mong muốn đạt được">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="currentProcess" class="form-label">Tiến độ hiện tại</label>
+                        <input type="text" id="currentProcess" class="form-control" placeholder="Nhập tiến độ hiện tại">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="duration" class="form-label">Thời gian thực hiện</label>
+                        <input type="text" id="duration" class="form-control" placeholder="Nhập thời gian thực hiện">
+                    </div>
+                    <div class="col-12 text-end">
+                        <button type="submit" class="btn btn-primary px-4">Gửi</button>
+                    </div>
+                </form>
+                <div id="suggestion" class="mt-4"></div>
+            </div>
+                   
             </div>
 
                 </div>
@@ -210,6 +172,37 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function sendMessage() {
+            const aim = document.getElementById('aim').value;
+            const promise = document.getElementById('promise').value;
+            const currentProcess = document.getElementById('currentProcess').value;
+            const duration = document.getElementById('duration').value;
+
+            let promt = `Bạn hãy là một trợ lý quản lý thời gian. Hiên tại tôi có mục tiêu ${aim} và mong muốn ${promise}. Tình trạng của tôi hiện
+            là ${currentProcess}. Tôi mong muốn hoàn thành trong ${duration}.`
+
+            const res = await fetch('/goals', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    'message': promt
+                })
+            });
+            const data = await res.json();
+            console.log(data);
+            document.getElementById('suggestion').innerHTML += `${data.message}`;
+        }
+
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            sendMessage();
+        });
+    </script>
+
 </body>
 </html>
