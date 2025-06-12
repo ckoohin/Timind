@@ -54,4 +54,51 @@
             </div>
         </form>
     </div>
+<<<<<<< HEAD
 @endsection
+=======
+
+    <form method="POST" action="{{ route('login') }}">
+        @csrf
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input id="email" class="form-control @error('email') is-invalid @enderror" 
+                   type="email" name="email" value="{{ old('email') }}" autofocus>
+            @error('email')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Mật khẩu</label>
+            <input id="password" class="form-control @error('password') is-invalid @enderror"
+                   type="password" name="password" >
+            @error('password')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3 form-check">
+            <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
+            <label for="remember_me" class="form-check-label">Ghi nhớ đăng nhập</label>
+        </div>
+
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary">
+                Đăng nhập
+            </button>
+        </div>
+        <div class="text-center mt-3">
+            <a href="/register" class="text-primary" style="text-decoration: none;">Bạn chưa có tài khoản? Đăng ký</a>
+        </div>
+
+        <div class="text-center mt-3">
+            <small class="text-muted">
+                Demo: admin@timind.com / password
+            </small>
+        </div>
+    </form>
+</div>
+@endsection
+>>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723

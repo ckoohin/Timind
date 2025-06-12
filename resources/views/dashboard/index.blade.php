@@ -69,7 +69,60 @@
 
                             @auth
                                 <div class="user-info d-flex align-items-center position-relative">
+<<<<<<< HEAD
                                     <i class="fas fa-bell notification-bell me-3 text-primary fs-5"></i>
+=======
+                                    <div class="dropdown me-3">
+                                        <button class="btn border-0 bg-transparent p-0" id="notificationDropdown"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-bell notification-bell text-primary fs-5"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown"
+                                            style="min-width: 300px;">
+                                            <li class="dropdown-header">Thông báo</li>
+                                            <li>
+                                                <hr class="dropdown-divider">
+                                            </li>
+                                            @php
+                                                // $totalTasks = count($activities);
+                                                // $pendingTasks =
+                                                //     $statusCounts['planned'] + $statusCounts['in_progress'] ??;
+                                                // $completedTasks = $statusCounts['completed'];
+                                            @endphp
+
+                                            {{-- @if ($pendingTasks > 0)
+                                                <li>
+                                                    <div class="px-3 py-2">
+                                                        Bạn còn {{ $pendingTasks }} task cần thực hiện hôm nay
+                                                    </div>
+                                                </li>
+                                            @endif
+                                            @if ($completedTasks > 0)
+                                                <li>
+                                                    <div class="px-3 py-2">
+                                                        Bạn đã hoàn thành {{ $completedTasks }} task hôm nay. Tuyệt vời!
+                                                    </div>
+                                                </li>
+                                            @endif
+                                            @if ($studyHours * 60 + $studyRemain >= 120)
+                                                <li>
+                                                    <div class="px-3 py-2">
+                                                        Bạn đã học liên tục
+                                                        {{ $studyHours > 0 ? $studyHours . ' giờ ' : '' }}{{ $studyRemain > 0 ? $studyRemain . ' phút' : '' }},
+                                                        nên nghỉ ngơi 15 phút nhé!
+                                                    </div>
+                                                </li>
+                                            @endif
+                                            @if ($totalTasks == 0)
+                                                <li>
+                                                    <div class="px-3 py-2">
+                                                        Hôm nay bạn chưa có task nào, hãy thêm mục tiêu mới!
+                                                    </div>
+                                                </li>
+                                            @endif --}}
+                                        </ul>
+                                    </div>
+>>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
 
                                     <div class="dropdown">
                                         <button class="btn d-flex align-items-center border-0 bg-transparent"
@@ -101,11 +154,20 @@
                         <div class="content-grid">
                             <div class="schedule-card">
                                 <h3>Lịch hôm nay</h3>
+<<<<<<< HEAD
 
                                 @php
                                     $iconList = [
                                         'completed' => 'fas fa-check-circle status-completed',
                                         'planned' => 'fas fa-clock status-pending',
+=======
+                                @php
+                                    $iconList = [
+                                        'completed' => 'fas fa-check-circle status-completed',
+                                        'in_progress' => 'fas fa-spinner status-in-progress',
+                                        'planned' => 'fas fa-clock status-pending',
+                                        'cancelled' => 'fas fa-times-circle status-missed',
+>>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
                                     ];
                                 @endphp
 
@@ -129,6 +191,7 @@
 
                             <div class="stats-section">
                                 <div class="left-stats">
+<<<<<<< HEAD
                                     <div class="summary-card">
                                         <div class="summary-item">
                                             <div class="summary-icon completed"></div>
@@ -153,30 +216,107 @@
                                             Bạn đã học liên tục 2 giờ, nên nghỉ 15 phút
                                         </div>
                                     </div>
+=======
+                                    @php
+                                        $statusCounts = [
+                                            'completed' => 0,
+                                            'in_progress' => 0,
+                                            'cancelled' => 0,
+                                            'planned' => 0,
+                                        ];
+                                        foreach ($activities as $activity) {
+                                            if (isset($statusCounts[$activity->status])) {
+                                                $statusCounts[$activity->status]++;
+                                            }
+                                        }
+                                    @endphp
+                                    <div class="summary-card">
+                                        <div class="summary-item">
+                                            <div class="summary-icon completed"></div>
+                                            <span>{{ $statusCounts['completed'] }} đã xong</span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <div class="summary-icon in_progress"></div>
+                                            <span>{{ $statusCounts['in_progress'] }} đang thực hiện</span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <div class="summary-icon missed"></div>
+                                            <span>{{ $statusCounts['cancelled'] }} không hoàn thành</span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <div class="summary-icon pending"></div>
+                                            <span>{{ $statusCounts['planned'] }} chưa thực hiện</span>
+                                        </div>
+                                    </div>
+
+>>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
                                 </div>
 
                                 <div class="stats-grid">
                                     <div class="stat-card">
                                         <i class="fas fa-book stat-icon primary"></i>
                                         <div class="stat-title">Tổng thời gian học</div>
+<<<<<<< HEAD
                                         <div class="stat-value">{{ $todayActivities->sum('duration') }} phút</div>
+=======
+                                        <div class="stat-value">
+                                            @if ($studyHours > 0)
+                                                {{ $studyHours }} giờ
+                                            @endif
+                                            @if ($studyRemain > 0)
+                                                {{ $studyRemain }} phút
+                                            @endif
+                                            @if ($studyHours == 0 && $studyRemain == 0)
+                                                0 phút
+                                            @endif
+                                        </div>
+>>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
                                     </div>
 
                                     <div class="stat-card">
                                         <i class="fas fa-bed stat-icon success"></i>
                                         <div class="stat-title">Tổng thời gian ngủ</div>
+<<<<<<< HEAD
                                         <div class="stat-value">8 giờ</div>
+=======
+                                        <div class="stat-value">
+                                            @if ($sleepHours > 0)
+                                                {{ $sleepHours }} giờ
+                                            @endif
+                                            @if ($sleepRemain > 0)
+                                                {{ $sleepRemain }} phút
+                                            @endif
+                                            @if ($sleepHours == 0 && $sleepRemain == 0)
+                                                0 phút
+                                            @endif
+                                        </div>
+>>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
                                     </div>
 
                                     <div class="stat-card">
                                         <i class="fas fa-gamepad stat-icon warning"></i>
                                         <div class="stat-title">Tổng thời gian giải trí</div>
+<<<<<<< HEAD
                                         <div class="stat-value">1 tiếng 30 phút</div>
+=======
+                                        <div class="stat-value">
+                                            @if ($entertainHours > 0)
+                                                {{ $entertainHours }} giờ
+                                            @endif
+                                            @if ($entertainRemain > 0)
+                                                {{ $entertainRemain }} phút
+                                            @endif
+                                            @if ($entertainHours == 0 && $entertainRemain == 0)
+                                                0 phút
+                                            @endif
+                                        </div>
+>>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
                                     </div>
 
                                     <div class="stat-card">
                                         <i class="fas fa-running stat-icon danger"></i>
                                         <div class="stat-title">Tổng thời gian tập thể dục</div>
+<<<<<<< HEAD
                                         <div class="stat-value">0</div>
                                     </div>
 
@@ -184,6 +324,26 @@
                                         <i class="fas fa-lightbulb"
                                             style="font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
                                         <div>Bạn học đều, hãy duy trì! Và đừng bỏ tập thể dục nữa nhé.</div>
+=======
+                                        <div class="stat-value">
+                                            @if ($exerciseHours > 0)
+                                                {{ $exerciseHours }} giờ
+                                            @endif
+                                            @if ($exerciseRemain > 0)
+                                                {{ $exerciseRemain }} phút
+                                            @endif
+                                            @if ($exerciseHours == 0 && $exerciseRemain == 0)
+                                                0 phút
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="advice-card">
+                                        <i class="fas fa-lightbulb"
+                                            style="font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                                        <div>
+                                            {{ $feedback ?? 'Không có nhận xét nào cho hôm nay!' }}
+                                        </div>
+>>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
                                     </div>
                                 </div>
                             </div>

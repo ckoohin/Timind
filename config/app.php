@@ -66,7 +66,10 @@ return [
     */
 
     'timezone' => 'Asia/Ho_Chi_Minh',
+<<<<<<< HEAD
 
+=======
+>>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

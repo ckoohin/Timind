@@ -41,12 +41,29 @@ class Activity extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+<<<<<<< HEAD
     public function category() {
         return $this->belongsTo(ActivityCategory::class, 'category_id', 'id');
+=======
+
+    public function category()
+    {
+        return $this->belongsTo(ActivityCategory::class,'category_id', 'id');
+>>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
     }
 
     public function getDurationAttribute()
     {
         return $this->start_time->diffInMinutes($this->end_time);
     }
+<<<<<<< HEAD
 }
+=======
+    public function calculateDuration()
+    {
+        $start = Carbon::parse($this->start_time);
+        $end = Carbon::parse($this->end_time);
+        return $end->diffInMinutes($start);
+    }
+}
+>>>>>>> be490f0617e04cab9bb59357c07635e0ab0bb723
