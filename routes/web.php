@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AnalyticsController;
 
 Route::get('/', function () {
     return view('welcome'); 
@@ -35,7 +36,6 @@ Route::middleware('auth')->group(function () {
         return view('dashboard.index');
     })->name('goals.index');
     
-    Route::get('/analytics', function () {
-        return view('dashboard.index');
-    })->name('analytics.index');
+    Route::get('/analytics', [AnalyticsController::class , 'index'])->name('analytics.index');
+    Route::post('/analytics', [AnalyticsController::class , 'postMessage'])->name('postMessage');
 });
