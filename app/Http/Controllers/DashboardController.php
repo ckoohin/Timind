@@ -31,7 +31,12 @@ class DashboardController extends Controller
         foreach ($todayActivities as $activity) {
             $activity->duration = Carbon::parse($activity->start_time)->diffInMinutes(Carbon::parse($activity->end_time));
         }
-        $statusCounts = $todayActivities->groupBy('status')->map->count()->toArray();
+        // $statusCounts = $todayActivities->groupBy('status')->map->count()->toArray();
+        $statusCounts = [
+            'planned' => $todayActivities->where('status', 'planned')->count(),
+            'in_progress' => $todayActivities->where('status', 'in_progress')->count(),
+            'completed' => $todayActivities->where('status', 'completed')->count(),
+        ];
 
         $totalStudyMinutes = $todayActivities->filter(function ($activity) {
             return $activity->category && $activity->category->type === 'study';

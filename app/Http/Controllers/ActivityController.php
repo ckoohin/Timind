@@ -256,9 +256,6 @@ class ActivityController extends Controller
     //     return response()->json($events);
     // }
 
-    /**
-     * Move/reschedule an activity (drag & drop)
-     */
     public function move(Request $request, string $id): JsonResponse
     {
         $validator = Validator::make($request->all(), [

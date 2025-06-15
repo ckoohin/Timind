@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\GoalController;
+use App\Http\Controllers\AnalyticsController;
 
 Route::get('/', function () {
     return view('welcome'); 
@@ -32,14 +33,14 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/goals', [GoalController::class, 'index'])->name('goals.index');
     Route::post('/goals', [GoalController::class , 'postMessage'])->name('postMessage');
-    // Route::get('/goals/create', [GoalController::class, 'create'])->name('goals.create');
-    // Route::post('/goals', [GoalController::class, 'store'])->name('goals.store');
-    // Route::get('/goals/{goal}', [GoalController::class, 'show'])->name('goals.show');
-    // Route::get('/goals/{goal}/edit', [GoalController::class, 'edit'])->name('goals.edit');
-    // Route::put('/goals/{goal}', [GoalController::class, 'update'])->name('goals.update');
-    // Route::delete('/goals/{goal}', [GoalController::class, 'destroy'])->name('goals.destroy');
+    Route::post('/goals/parse-schedule', [GoalController::class, 'parseScheduleFromAI'])->name('goals.parse-schedule');
+    Route::post('/goals/save-schedule', [GoalController::class, 'saveSchedule'])->name('goals.save-schedule');
+    Route::post('/goals/parse-and-save', [GoalController::class, 'parseAndSaveSchedule'])->name('goals.parse-and-save');
+    Route::get('/api/free-times', [GoalController::class, 'getFreeTime'])->name('api.free-times');
     
-    Route::get('/analytics', function () {
-        return view('dashboard.index');
-    })->name('analytics.index');
+    Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
+    Route::get('/analytics/data', [AnalyticsController::class, 'getAnalyticsData'])->name('analytics.data');
+    Route::get('/analytics/monthly', [AnalyticsController::class, 'getMonthlyData'])->name('analytics.monthly');
+    Route::get('/analytics/overview', [AnalyticsController::class, 'getOverviewStats'])->name('analytics.overview');
+    Route::get('/analytics/categories', [AnalyticsController::class, 'getCategoryStats'])->name('analytics.categories');
 });

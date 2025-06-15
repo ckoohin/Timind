@@ -46,7 +46,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('analytics.index') }}" class="nav-link">
                                     <i class="fas fa-chart-line"></i>
                                     Phân tích
                                 </a>

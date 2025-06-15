@@ -35,23 +35,14 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Goals
     Route::apiResource('goals', GoalController::class);
+    Route::get('/free-times', [GoalController::class, 'getFreeTime']);
+    Route::post('/schedules/save', [GoalController::class, 'saveSchedule']);
+    Route::post('/schedules/parse', [GoalController::class, 'parseScheduleFromAI']);
     Route::post('/goals/{goal}/tasks', [GoalController::class, 'addTask']);
     Route::put('/goals/{goal}/tasks/{task}', [GoalController::class, 'updateTask']);
     
     // // Analytics
-    // Route::get('/analytics/dashboard', [AnalyticsController::class, 'dashboard']);
-    // Route::get('/analytics/daily/{date}', [AnalyticsController::class, 'daily']);
-    // Route::get('/analytics/weekly/{week}', [AnalyticsController::class, 'weekly']);
-    
-    // AI
-    // Route::post('/ai/generate-schedule', [AiController::class, 'generateSchedule']);
-    // Route::get('/ai/suggestions', [AiController::class, 'getSuggestions']);
-    // Route::post('/ai/suggestions/{suggestion}/respond', [AiController::class, 'respondToSuggestion']);
-    // Route::get('/process-comment/{id}', [AiController::class, 'processComment']);
-    
-    // // Notifications
-    // Route::get('/notifications', [NotificationController::class, 'index']);
-    // Route::put('/notifications/{notification}/read', [NotificationController::class, 'markAsRead']);
-    // Route::put('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
-    // Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy']);
+    Route::get('/analytics/dashboard', [AnalyticsController::class, 'dashboard']);
+    Route::get('/analytics/daily/{date}', [AnalyticsController::class, 'daily']);
+    Route::get('/analytics/weekly/{week}', [AnalyticsController::class, 'weekly']);
 });
